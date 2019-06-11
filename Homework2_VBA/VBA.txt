@@ -1,0 +1,66 @@
+Sub StockTicker()
+
+
+'Set ws as worksheet object variable
+'Loop through all worksheets in the active workbook
+
+Dim ws As Worksheet
+    For Each ws In Worksheets
+     
+
+'Set variable to define i (rows)
+Dim i As Long
+'Set variable for the total volume
+Dim total_stock_vol As Double
+'Set variable for the ticker
+Dim ticker As String
+'Set variable for row summary of ticker
+Dim rowcount As Long
+rowcount = 2
+
+
+'Set Column names for results
+ws.Cells(1, 9).Value = "Ticker"
+ws.Cells(1, 10).Value = "TotalStockVolume"
+
+'Define variable for total rows in loop
+ Dim FinalRow As Long
+ 
+'Loops through to last row in table
+FinalRow = ws.Cells(Rows.Count, 1).End(xlUp).Row
+  
+
+'Loops to search for ticker
+        For i = 2 To FinalRow
+    
+      
+        'Total volume for each stock ticker
+    total_stock_vol = total_stock_vol + ws.Cells(i, 7)
+        
+        
+        
+            If ws.Cells(i, 1).Value <> ws.Cells(i + 1, 1).Value Then
+            ' if the stock ticker symbol is the same, continue to loop through and total up values
+
+    
+            
+                'writes out the last row the section
+                  ws.Cells(rowcount, 9).Value = ws.Cells(i, 1).Value
+                  ws.Cells(rowcount, 10).Value = total_stock_vol
+                  
+                   'Summarize rows adding prior row to the total
+                  rowcount = rowcount + 1
+                  
+                        'Reset the total stock volume
+                   total_stock_vol = 0
+                   
+            
+            End If
+
+         'Loop through next row
+        Next i
+     
+     'Loop to go to next worksheet in workbook
+    Next ws
+        
+End Sub
